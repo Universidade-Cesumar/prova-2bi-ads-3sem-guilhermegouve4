@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Almoxarifado SENAC</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <header>
+    <h1>Controle de Almoxarifado</h1>
+  </header>
+
+  <main>
+    <section class="form-section">
+      <h2>Cadastrar Material</h2>
+      <div class="form-group">
+        <input id="input-nome" type="text" placeholder="Nome do material" />
+        <input id="input-quantidade" type="number" placeholder="Quantidade" min="1" />
+        <button id="btn-cadastrar">Cadastrar</button>
+      </div>
+    </section>
+
+    <section class="list-section">
+      <h2>Materiais em Estoque</h2>
+      <table>
+        <thead>
+          <tr>
+            <th>Nome</th>
+            <th>Quantidade</th>
+          </tr>
+        </thead>
+        <tbody id="lista-materiais">
+        </tbody>
+      </table>
+    </section>
+  </main>
+
+  <script src="main.js"></script>
+</body>
+</html>
