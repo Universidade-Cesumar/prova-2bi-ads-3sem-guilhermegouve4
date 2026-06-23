@@ -80,6 +80,7 @@ async function registerMaterial() {
   loadMaterials();
 }
 
-document.getElementById('btn-cadastrar').addEventListener('click', registerMaterial);
-
-loadMaterials();
+if (typeof fetch !== 'undefined') {
+  document.getElementById('btn-cadastrar').addEventListener('click', registerMaterial);
+  loadMaterials();
+}
