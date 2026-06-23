@@ -1,6 +1,10 @@
 const API_URL = 'https://6a2899564e1e783349a5b055.mockapi.io/api/v1/products';
 const materials = [];
 
+function validarRetirada(estoqueAtual, quantidadeRetirada) {
+  return quantidadeRetirada > 0 && quantidadeRetirada <= estoqueAtual;
+}
+
 async function loadMaterials() {
   const response = await fetch(API_URL);
   const data = await response.json();
@@ -13,8 +17,42 @@ async function loadMaterials() {
 
   materials.forEach(material => {
     const tr = document.createElement('tr');
-    tr.innerHTML = `<td>${material.name}</td><td>${material.quantity}</td>`;
+    tr.innerHTML = `
+      <td>${material.name}</td>
+      <td>${material.quantity}</td>
+      <td>
+        <button class="btn-baixar" data-id="${material.id}" data-qty="${material.quantity}">Baixar</button>
+        <button class="btn-excluir" data-id="${material.id}">Excluir</button>
+      </td>
+    `;
     list.appendChild(tr);
+  });
+
+  list.querySelectorAll('.btn-baixar').forEach(btn => {
+    btn.addEventListener('click', async () => {
+      const amount = Number(document.getElementById('input-retirada').value);
+      const currentStock = Number(btn.dataset.qty);
+
+      if (!validarRetirada(currentStock, amount)) {
+        alert('Quantidade inválida.');
+        return;
+      }
+
+      await fetch(`${API_URL}/${btn.dataset.id}`, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ quantity: currentStock - amount }),
+      });
+
+      loadMaterials();
+    });
+  });
+
+  list.querySelectorAll('.btn-excluir').forEach(btn => {
+    btn.addEventListener('click', async () => {
+      await fetch(`${API_URL}/${btn.dataset.id}`, { method: 'DELETE' });
+      loadMaterials();
+    });
   });
 }
 
